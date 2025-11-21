@@ -1,0 +1,8 @@
+Sprint 1:
+  - Created a file that contained sample code of a similar project. 
+Sprint 2:
+  - Created new file for actual "HeroForge" code
+  - Created quiz function to identify user character race type using personality quiz type questions
+  - Created quiz function to identify user character class type using perosnality quiz type questions
+  - Create lists/functions that contain height, hair color, weapon type, and other characteristics to randomly generate the user's character
+  - Create function that randomly generates the user character from the quiz results and characteristic lists
