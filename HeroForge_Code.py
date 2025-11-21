@@ -1,5 +1,5 @@
-
 from collections import Counter
+import random
 
 # --- Race Functions ---
 def human():
@@ -52,6 +52,29 @@ class_map = {
     "e": paladin
 }
 
+# --- Feature Dictionaries ---
+height_options = {
+    "Human": ["5'4\"", "5'7\"", "6'0\"", "6'2\""],
+    "Elf": ["5'6\"", "5'9\"", "6'1\"", "6'3\""],
+    "Dwarf": ["4'2\"", "4'5\"", "4'8\"", "5'0\""],
+    "Halfling": ["3'0\"", "3'4\"", "3'6\"", "4'0\""],
+    "Dragon": ["12'0\"", "15'0\"", "18'0\"", "20'0\""]
+}
+
+hair_color_options = [
+    "Black", "Brown", "Blonde", "Red", "White", "Silver",
+    "Emerald Green", "Sapphire Blue", "Crimson", "Gold"
+]
+
+weapon_options = {
+    "Wizard": ["Staff", "Wand", "Orb"],
+    "Cleric": ["Mace", "Holy Staff", "Warhammer"],
+    "Druid": ["Nature Staff", "Totem", "Sickle"],
+    "Bard": ["Lute", "Flute", "Rapier"],
+    "Paladin": ["Sword", "Hammer", "Shield"],
+    "Dragon": ["Fire Breath", "Claws", "Tail Swipe"]
+}
+
 
 # --- Helper function to tally results ---
 def get_result(answers, mapping):
@@ -62,6 +85,18 @@ def get_result(answers, mapping):
     for key, func in mapping.items():
         if func.__name__ == top_choice:
             return func()
+
+
+# --- Assign Features ---
+def assign_features(race_name, class_name):
+    height = random.choice(height_options[race_name])
+    hair_color = random.choice(hair_color_options)
+    weapon = random.choice(weapon_options.get(class_name, ["Unarmed"]))
+    return {
+        "Height": height,
+        "Hair/Scale Color": hair_color,
+        "Weapon": weapon
+    }
 
 
 # --- Main Quiz ---
@@ -146,14 +181,25 @@ def main_quiz():
 
     class_answers = [q_6, q_7, q_8, q_9, q_10]
 
-    # Results
+   # Results
     print("\n--- RESULTS ---")
+    race_result = get_result(race_answers, race_map)
+    class_result = get_result(class_answers, class_map)
+
     print("Your Race:")
-    print(get_result(race_answers, race_map))
+    print(race_result)
 
     print("\nYour Class:")
-    print(get_result(class_answers, class_map))
+    print(class_result)
 
+ # Assign features
+    race_name = race_result.split(":")[0].replace("You are a ", "")
+    class_name = class_result.split(":")[0].replace("You are a ", "")
+    features = assign_features(race_name, class_name)
+
+    print("\n--- CHARACTER FEATURES ---")
+    for key, value in features.items():
+        print(f"{key}: {value}")
 
 if __name__ == "__main__":
     main_quiz()
